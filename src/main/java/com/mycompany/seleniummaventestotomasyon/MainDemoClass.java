@@ -172,7 +172,10 @@ public class MainDemoClass {
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,0)");
     }
-   
+   /**
+    * Click my favorite pages method
+    * @throws InterruptedException 
+    */
     public static void Click_My_Favites() throws InterruptedException
     {
         driver.findElement(By.cssSelector("a.menuTitle")).click();  
