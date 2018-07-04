@@ -10,8 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 
 /**
@@ -49,7 +47,7 @@ public class MainDemoClass {
         Swap_2_page2();
         
         
-        // add 3. product to favorite
+        // added 3. product to favorite
         AddFavorite_3_product();
         
         
