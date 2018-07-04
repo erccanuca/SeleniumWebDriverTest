@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
@@ -36,6 +37,9 @@ public class MainDemoClass {
         Wait_5_seconds();
         
         // Search
+        Search();
+        // Pop-up alert  
+        //LoadedSearchResultPage();
     }
     
     /**
@@ -43,7 +47,7 @@ public class MainDemoClass {
     */
     public static void OpenBrowser()
     {
-        System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\ercan\\Documents\\NetBeansProjects\\SeleniumMavenTestOtomasyon\\src\\main\\java\\com\\mycompany\\seleniummaventestotomasyon\\chromedriver.exe");
         driver = new ChromeDriver();
         
         driver.navigate().to("https://www.n11.com/");
@@ -69,7 +73,7 @@ public class MainDemoClass {
     {
         driver.navigate().to("https://www.n11.com/giris-yap");
         
-         driver.findElement(By.cssSelector("#email")).sendKeys("ercanuca@gmail.com");
+        driver.findElement(By.cssSelector("#email")).sendKeys("ercanuca@gmail.com");
         Wait_5_seconds();
         driver.findElement(By.cssSelector("#password")).sendKeys("nacre123456");
         Wait_5_seconds();
@@ -83,4 +87,16 @@ public class MainDemoClass {
     {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
+    /**
+     * Search 'samsung' page method
+     */
+    public static void Search()
+    {
+        driver.findElement(By.cssSelector("#searchData")).sendKeys("samsung");
+        Wait_5_seconds();
+        Wait_5_seconds();
+        driver.findElement(By.cssSelector("a.searchBtn")).click();
+        
+    }
+    
 }
