@@ -6,11 +6,15 @@
 package com.mycompany.seleniummaventestotomasyon;
 
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -19,6 +23,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class MainDemoClass {
     
     private static WebDriver driver = null;
+    private final static String URL = "https://www.n11.com/";
+    
+    
     /**
      * Main Demo class 
      * @param args comment line arguments.
@@ -38,8 +45,7 @@ public class MainDemoClass {
         
         // Search
         Search();
-        // Pop-up alert  
-        //LoadedSearchResultPage();
+        scrollPageDown();
     }
     
     /**
@@ -47,11 +53,21 @@ public class MainDemoClass {
     */
     public static void OpenBrowser()
     {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\ercan\\Documents\\NetBeansProjects\\SeleniumMavenTestOtomasyon\\src\\main\\java\\com\\mycompany\\seleniummaventestotomasyon\\chromedriver.exe");
-        driver = new ChromeDriver();
+        //Set path for driver exe
+        System.setProperty("webdriver.chrome.driver",
+        "C:\\Users\\ercan\\Documents\\NetBeansProjects\\SeleniumMavenTestOtomasyon\\src\\main\\java\\com\\mycompany\\seleniummaventestotomasyon\\chromedriver.exe");
         
-        driver.navigate().to("https://www.n11.com/");
-        driver.manage().window().maximize();
+        ChromeOptions options = new ChromeOptions();
+	//options.addArguments("window-size=1024,768");
+        
+        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+	capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+	
+        driver = new ChromeDriver(capabilities);
+
+        driver.get(URL);
+        
+        driver.manage().window().maximize(); // maximize page
     }
     
     /**
@@ -60,11 +76,13 @@ public class MainDemoClass {
     */
     public static void LoadedHomePage() throws InterruptedException
     {
-         //Generating Alert Using Javascript Executor
-        JavascriptExecutor javascript = (JavascriptExecutor) driver;
-        javascript.executeScript("alert('Loaded Home page and cross to login!');");
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Loaded Home Page');");
+       
         Thread.sleep(3000);
         driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
     }
    /**
     * Load Sign in page method
@@ -89,14 +107,34 @@ public class MainDemoClass {
     }
     /**
      * Search 'samsung' page method
+     * @throws java.lang.InterruptedException
      */
-    public static void Search()
+    public static void Search() throws InterruptedException
     {
+        
         driver.findElement(By.cssSelector("#searchData")).sendKeys("samsung");
         Wait_5_seconds();
+        driver.findElement(By.cssSelector("a.searchBtn")).click();             
         Wait_5_seconds();
-        driver.findElement(By.cssSelector("a.searchBtn")).click();
+        
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Loaded Search Page');");
+        
+        Thread.sleep(3000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
+        
+        
         
     }
+    
+    public static void scrollPageDown(){
+        Wait_5_seconds();
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,6000)");
+    }
+    
+  
     
 }
