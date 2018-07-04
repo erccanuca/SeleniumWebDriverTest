@@ -6,15 +6,13 @@
 package com.mycompany.seleniummaventestotomasyon;
 
 import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 /**
  *
@@ -46,6 +44,18 @@ public class MainDemoClass {
         // Search
         Search();
         scrollPageDown();
+        
+        // Swap 2. search page
+        Swap_2_page2();
+        
+        
+        // add 3. product to favorite
+        AddFavorite_3_product();
+        
+        
+        // click my favorites
+       // Click_My_Favites();
+        
     }
     
     /**
@@ -57,13 +67,7 @@ public class MainDemoClass {
         System.setProperty("webdriver.chrome.driver",
         "C:\\Users\\ercan\\Documents\\NetBeansProjects\\SeleniumMavenTestOtomasyon\\src\\main\\java\\com\\mycompany\\seleniummaventestotomasyon\\chromedriver.exe");
         
-        ChromeOptions options = new ChromeOptions();
-	//options.addArguments("window-size=1024,768");
-        
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-	capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-	
-        driver = new ChromeDriver(capabilities);
+        driver = new ChromeDriver();
 
         driver.get(URL);
         
@@ -115,26 +119,82 @@ public class MainDemoClass {
         driver.findElement(By.cssSelector("#searchData")).sendKeys("samsung");
         Wait_5_seconds();
         driver.findElement(By.cssSelector("a.searchBtn")).click();             
-        Wait_5_seconds();
+        ;
         
         //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("alert('Loaded Search Page');");
         
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
-        
-        
-        
+
     }
-    
+    /**
+     * Scroll down for click 2. page
+     */
     public static void scrollPageDown(){
-        Wait_5_seconds();
+        
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,6000)");
     }
+    /**
+     * Swap second searched page
+     * @throws java.lang.InterruptedException
+     */
+    public static void Swap_2_page2() throws InterruptedException
+    {
+        Wait_5_seconds();
+        driver.findElement(By.xpath("//a[@href ='https://www.n11.com/arama?q=samsung&pg=2']")).click();
+        Wait_5_seconds();
+        
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Loaded Search Page 2');");
+        
+        Thread.sleep(2000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
+        
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,3000)");
+        Wait_5_seconds();
+        Wait_5_seconds();
+    }
     
+    /**
+     * Add favorite method
+    */
+    public static void AddFavorite_3_product()
+    {
+        driver.findElement(By.xpath("//*[@id=\"view\"]/ul/li[3]")).click();
+        Wait_5_seconds();
+        Wait_5_seconds();
+        // up page //*[@id="view"]/ul/li[3]
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,0)");
+    }
+   
+    public static void Click_My_Favites() throws InterruptedException
+    {
+        driver.findElement(By.cssSelector("a.menuTitle")).click();  
+        
+        Wait_5_seconds();
+        Wait_5_seconds();
+        
+        driver.findElement(By.linkText("İstek Listelerim")).click();
+         //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('You have one favorite product');");
+        
+        Thread.sleep(2000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
+        Wait_5_seconds();
+        
+        driver.findElement(By.cssSelector("ul.listItemProductList"));
+        
+    }
   
     
 }
