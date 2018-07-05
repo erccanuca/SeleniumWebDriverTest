@@ -5,11 +5,16 @@
  */
 package com.mycompany.seleniummaventestotomasyon;
 
+import java.awt.Desktop;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 
 /**
@@ -52,7 +57,7 @@ public class MainDemoClass {
         
         
         // click my favorites
-       // Click_My_Favites();
+        Click_My_Favites();
         
     }
     
@@ -62,8 +67,7 @@ public class MainDemoClass {
     public static void OpenBrowser()
     {
         //Set path for driver exe
-        System.setProperty("webdriver.chrome.driver",
-        "C:\\Users\\ercan\\Documents\\NetBeansProjects\\SeleniumMavenTestOtomasyon\\src\\main\\java\\com\\mycompany\\seleniummaventestotomasyon\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver","C:\\chromedriver.exe");
         
         driver = new ChromeDriver();
 
@@ -98,6 +102,7 @@ public class MainDemoClass {
         driver.findElement(By.cssSelector("#password")).sendKeys("nacre123456");
         Wait_5_seconds();
         driver.findElement(By.cssSelector("#loginButton")).click();
+        
     }
     
     /**
@@ -113,11 +118,20 @@ public class MainDemoClass {
      */
     public static void Search() throws InterruptedException
     {
+        Wait_5_seconds();
+        
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Logged in account!');");
+        
+        Thread.sleep(2000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
         
         driver.findElement(By.cssSelector("#searchData")).sendKeys("samsung");
         Wait_5_seconds();
         driver.findElement(By.cssSelector("a.searchBtn")).click();             
-        ;
+        
         
         //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
@@ -154,9 +168,6 @@ public class MainDemoClass {
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
         
-        if (driver instanceof JavascriptExecutor)  
-            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,3000)");
-        Wait_5_seconds();
         Wait_5_seconds();
     }
     
@@ -165,10 +176,18 @@ public class MainDemoClass {
     */
     public static void AddFavorite_3_product()
     {
-        driver.findElement(By.xpath("//*[@id=\"view\"]/ul/li[3]")).click();
+        Actions actions = new Actions(driver);
+        List<WebElement> elements = driver.findElements(By.cssSelector("span.textImg.followBtn"));
+       
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView()",
+                                                        elements.get(2));
         Wait_5_seconds();
+        actions.moveToElement(elements.get(2)).click().build().perform();
+       
+     
         Wait_5_seconds();
-        // up page //*[@id="view"]/ul/li[3]
+        // up page 
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,0)");
     }
