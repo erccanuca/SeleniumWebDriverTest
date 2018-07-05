@@ -7,6 +7,8 @@ package com.mycompany.seleniummaventestotomasyon;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -29,18 +31,18 @@ public class MainDemoClass {
      * Main Demo class 
      * @param args comment line arguments.
      */
-    public static void main(String[] args) throws InterruptedException
+    public static void main(String[] args)
     {
         // Open browser
         OpenBrowser();
         
         // Pop-up alert and loaded home page
         LoadedHomePage();
-        Wait_5_seconds();
+        WaitTime(5000);
         
         // Swich to loging and Sign in to site.
         SwichLogingPageAndSignIn();
-        Wait_5_seconds();
+        WaitTime(5000);
         
         // Search
         Search();
@@ -82,15 +84,14 @@ public class MainDemoClass {
     
     /**
      * This is loaded home page alert!.
-     * @throws InterruptedException if interrupt the running project throw it.
     */
-    public static void LoadedHomePage() throws InterruptedException
+    public static void LoadedHomePage()
     {
         //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("alert('Loaded Home Page');");
        
-        Thread.sleep(3000);
+        WaitTime(2000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
     }
@@ -99,41 +100,47 @@ public class MainDemoClass {
     */
     public static void SwichLogingPageAndSignIn()
     {
+        WaitTime(2000);
         driver.navigate().to("https://www.n11.com/giris-yap");
         
         driver.findElement(By.cssSelector("#email")).sendKeys("ercanuca@gmail.com");
-        Wait_5_seconds();
+        WaitTime(2000);
         driver.findElement(By.cssSelector("#password")).sendKeys("nacre123456");
-        Wait_5_seconds();
+        WaitTime(2000);
         driver.findElement(By.cssSelector("#loginButton")).click();
         
     }
     
     /**
      * Wait for 5 seconds method
+     * @param miliseconds
      */
-    public static void Wait_5_seconds()
+    public static void WaitTime(long miliseconds)
     {
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        try {
+            //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            Thread.sleep(miliseconds);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainDemoClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /**
      * Search 'samsung' page method
-     * @throws java.lang.InterruptedException
      */
-    public static void Search() throws InterruptedException
+    public static void Search()
     {
-        Wait_5_seconds();
+        WaitTime(2000);
         
         //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("alert('Logged in account!');");
         
-        Thread.sleep(2000);
+        WaitTime(2000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
         
         driver.findElement(By.cssSelector("#searchData")).sendKeys("samsung");
-        Wait_5_seconds();
+        WaitTime(2000);
         driver.findElement(By.cssSelector("a.searchBtn")).click();             
         
         
@@ -141,7 +148,7 @@ public class MainDemoClass {
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("alert('Loaded Search Page');");
         
-        Thread.sleep(2000);
+        WaitTime(2000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
 
@@ -156,23 +163,22 @@ public class MainDemoClass {
     }
     /**
      * Swap second searched page
-     * @throws java.lang.InterruptedException
      */
-    public static void Swap_2_page2() throws InterruptedException
+    public static void Swap_2_page2()
     {
-        Wait_5_seconds();
+        WaitTime(2000);
         driver.findElement(By.xpath("//a[@href ='https://www.n11.com/arama?q=samsung&pg=2']")).click();
-        Wait_5_seconds();
+        WaitTime(2000);
         
         //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("alert('Loaded Search Page 2');");
         
-        Thread.sleep(2000);
+        WaitTime(2000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
         
-        Wait_5_seconds();
+        WaitTime(2000);
     }
     
     /**
@@ -183,29 +189,28 @@ public class MainDemoClass {
         Actions actions = new Actions(driver);
         List<WebElement> elements = driver.findElements(By.cssSelector("span.textImg.followBtn"));
        
-        Wait_5_seconds();
+        WaitTime(2000);
         actions.moveToElement(elements.get(2)).click().build().perform();
        
      
-        Wait_5_seconds();
+        WaitTime(2000);
         // up page 
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,0)");
     }
    /**
-    * Click my favorite pages method
-    * @throws InterruptedException 
+    * Click my favorite pages method 
     */
-    public static void Click_My_Favites() throws InterruptedException
+    public static void Click_My_Favites()
     {
         driver.findElement(By.cssSelector("a.menuTitle")).click();  
         
-        Wait_5_seconds();
-        Wait_5_seconds();
+        
+        WaitTime(5000);
         
         driver.findElement(By.linkText("İstek Listelerim")).click();
         
-        Wait_5_seconds();
+        WaitTime(3000);
         
         WebElement element = driver.findElement(By.cssSelector("h4.listItemTitle"));
         String number = "";
@@ -228,16 +233,18 @@ public class MainDemoClass {
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript(alert);
         
-        Thread.sleep(2000);
+        WaitTime(2000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
-        Wait_5_seconds();
+        WaitTime(2000);
         
         driver.findElement(By.cssSelector("ul.listItemProductList"));
         
     }
-    
-    public static void Remove_favorite() throws InterruptedException
+    /**
+     * Remove Favorite product
+     */
+    public static void Remove_favorite()
     {
         
         driver.findElement(By.cssSelector("h4.listItemTitle")).click();
@@ -246,14 +253,14 @@ public class MainDemoClass {
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("alert('Loaded Favorite Page');");
         
-        Thread.sleep(2000);
+        WaitTime(2000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
         
-        Wait_5_seconds();
+        WaitTime(3000);
         
         driver.findElement(By.cssSelector("span.deleteProFromFavorites")).click();
-        Wait_5_seconds();
+        WaitTime(4000);
         
         driver.findElement(By.cssSelector("span.btn.btnBlack.confirm")).click();
         
@@ -261,25 +268,27 @@ public class MainDemoClass {
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("alert('Removed favorite product.');");
         
-        Thread.sleep(3000);
+        WaitTime(3000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
         
-        Wait_5_seconds();  
+        WaitTime(3000);  
         
     }  
-    
-    public static void exit() throws InterruptedException
+    /**
+     * Exit to browser
+     */
+    public static void exit() 
     {
         //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("alert('Thanks');");
         
-        Thread.sleep(2000);
+        WaitTime(2000);
         driver.switchTo().alert().accept();
         driver.switchTo().defaultContent();
         
-        Wait_5_seconds();
+        WaitTime(3000);
         
         
         driver.close();
