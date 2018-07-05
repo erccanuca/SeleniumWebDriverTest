@@ -5,12 +5,10 @@
  */
 package com.mycompany.seleniummaventestotomasyon;
 
-import java.awt.Desktop;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -58,6 +56,12 @@ public class MainDemoClass {
         
         // click my favorites
         Click_My_Favites();
+        
+        // remove favorite product
+        Remove_favorite();
+        
+        // close browser & quit
+        exit();
         
     }
     
@@ -179,9 +183,6 @@ public class MainDemoClass {
         Actions actions = new Actions(driver);
         List<WebElement> elements = driver.findElements(By.cssSelector("span.textImg.followBtn"));
        
-        if (driver instanceof JavascriptExecutor)  
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView()",
-                                                        elements.get(2));
         Wait_5_seconds();
         actions.moveToElement(elements.get(2)).click().build().perform();
        
@@ -203,9 +204,29 @@ public class MainDemoClass {
         Wait_5_seconds();
         
         driver.findElement(By.linkText("İstek Listelerim")).click();
+        
+        Wait_5_seconds();
+        
+        WebElement element = driver.findElement(By.cssSelector("h4.listItemTitle"));
+        String number = "";
+        boolean find = false;
+        for(int i = 0;  i < element.getText().length(); ++i)
+        {
+            if(element.getText().charAt(i) == '(')
+                find = true;
+            else if(find && element.getText().charAt(i) != ')' )
+                number += element.getText().charAt(i);
+        }
+        //System.out.println("--------------:"+number);
+        String alert = "alert('";
+        alert += "You have ";
+        alert += number;
+        alert += " favorite products.";
+        alert += "');";
+      
          //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
-            ((JavascriptExecutor) driver).executeScript("alert('You have one favorite product');");
+            ((JavascriptExecutor) driver).executeScript(alert);
         
         Thread.sleep(2000);
         driver.switchTo().alert().accept();
@@ -215,6 +236,54 @@ public class MainDemoClass {
         driver.findElement(By.cssSelector("ul.listItemProductList"));
         
     }
-  
+    
+    public static void Remove_favorite() throws InterruptedException
+    {
+        
+        driver.findElement(By.cssSelector("h4.listItemTitle")).click();
+        
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Loaded Favorite Page');");
+        
+        Thread.sleep(2000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
+        
+        Wait_5_seconds();
+        
+        driver.findElement(By.cssSelector("span.deleteProFromFavorites")).click();
+        Wait_5_seconds();
+        
+        driver.findElement(By.cssSelector("span.btn.btnBlack.confirm")).click();
+        
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Removed favorite product.');");
+        
+        Thread.sleep(3000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
+        
+        Wait_5_seconds();  
+        
+    }  
+    
+    public static void exit() throws InterruptedException
+    {
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Thanks');");
+        
+        Thread.sleep(2000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
+        
+        Wait_5_seconds();
+        
+        
+        driver.close();
+        driver.quit();
+    }
     
 }
