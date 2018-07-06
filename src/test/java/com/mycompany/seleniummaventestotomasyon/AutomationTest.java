@@ -11,9 +11,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -87,17 +89,40 @@ public class AutomationTest {
 
     /**
      * Test of SwichLogingPageAndSignIn method, of class Automation.
+     * @throws java.lang.InterruptedException
      */
     @Test
-    public void testSwichLogingPageAndSignIn() {
+    public void testSwichLogingPageAndSignIn() throws InterruptedException {
+        
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
+        // load log in page
+        Thread.sleep(2000);
+        driver.navigate().to("https://www.n11.com/giris-yap");
+        // test 
+        Assert.assertEquals("Title check failed!", "Giriş Yap - n11.com", driver.getTitle());
+
+        // entered email
+        WebElement elementEmail = driver.findElement(By.cssSelector("#email"));
+        elementEmail.sendKeys("ercanuca@gmail.com");
+        Thread.sleep(2000);
+        // test
+        Assert.assertEquals("Email check failed!", "ercanuca@gmail.com", elementEmail.getAttribute("value"));
         
+        // entered pws
+        WebElement elementPsw = driver.findElement(By.cssSelector("#password"));
+        elementPsw.sendKeys("nacre123456");
+        Thread.sleep(2000);
+        // test
+        Assert.assertEquals("Password check failed!", "nacre123456", elementPsw.getAttribute("value"));
+
+        // click log in
+        WebElement elementLogin = driver.findElement(By.cssSelector("#loginButton"));
+        Assert.assertEquals("Log in check failed!", "Üye Girişi", elementLogin.getText());
+        elementLogin.click();
         
         System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
-
-        
-        
+   
     }
 
     /**
