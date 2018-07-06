@@ -6,26 +6,24 @@
 package com.mycompany.seleniummaventestotomasyon;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
  * @author ercan
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AutomationTest {
     
     private static WebDriver driver = null;
@@ -53,7 +51,7 @@ public class AutomationTest {
      * @throws java.lang.InterruptedException
      */
     @Test
-    public void testOpenBrowser() throws InterruptedException {
+    public void testAOpenBrowser() throws InterruptedException {
         
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
 
@@ -69,7 +67,7 @@ public class AutomationTest {
      * @throws java.lang.InterruptedException
      */
     @Test
-    public void testLoadedHomePage() throws InterruptedException {
+    public void testBLoadedHomePage() throws InterruptedException {
         
         
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
@@ -94,7 +92,7 @@ public class AutomationTest {
      * @throws java.lang.InterruptedException
      */
     @Test
-    public void testSwichLogingPageAndSignIn() throws InterruptedException {
+    public void testCSwichLogingPageAndSignIn() throws InterruptedException {
         
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
@@ -132,7 +130,7 @@ public class AutomationTest {
      * @throws java.lang.InterruptedException
      */
     @Test
-    public void testWaitTime() throws InterruptedException {
+    public void testDWaitTime() throws InterruptedException {
         
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
@@ -158,7 +156,7 @@ public class AutomationTest {
      * @throws java.lang.InterruptedException
      */
     @Test
-    public void testSearch() throws InterruptedException {
+    public void testESearch() throws InterruptedException {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
@@ -204,9 +202,18 @@ public class AutomationTest {
      * Test of scrollPageDown method, of class Automation.
      */
     @Test
-    public void testScrollPageDown() {
+    public void testFScrollPageDown() {
         
+        Long instance = 6000L;
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        JavascriptExecutor executer = ((JavascriptExecutor) driver);
+        executer.executeScript("window.scrollTo(0,6000)");
+            
+        Long value = (Long) executer.executeScript("return window.pageYOffset;");
+        //System.out.println("Position scroll: " + value);
+        
+        Assert.assertEquals(instance,value);
         
         System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
@@ -216,7 +223,7 @@ public class AutomationTest {
      * Test of Swap_2_page2 method, of class Automation.
      */
     @Test
-    public void testSwap_2_page2() {
+    public void testGSwap_2_page2() {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
@@ -228,7 +235,7 @@ public class AutomationTest {
      * Test of AddFavorite_3_product method, of class Automation.
      */
     @Test
-    public void testAddFavorite_3_product() {
+    public void testHAddFavorite_3_product() {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
@@ -239,7 +246,7 @@ public class AutomationTest {
      * Test of Click_My_Favites method, of class Automation.
      */
     @Test
-    public void testClick_My_Favites() {
+    public void testKClick_My_Favites() {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName()); 
         
@@ -252,7 +259,7 @@ public class AutomationTest {
      * Test of Remove_favorite method, of class Automation.
      */
     @Test
-    public void testRemove_favorite() {
+    public void testLRemove_favorite() {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
@@ -264,7 +271,7 @@ public class AutomationTest {
      * Test of exit method, of class Automation.
      */
     @Test
-    public void testExit() {
+    public void testMExit() {
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
         System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());

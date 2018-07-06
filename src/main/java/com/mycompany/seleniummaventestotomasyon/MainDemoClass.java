@@ -32,6 +32,8 @@ public class MainDemoClass {
         
         // Search
         auto.Search();
+        
+        // scroll down
         auto.scrollPageDown();
         
         // Swap 2. search page
