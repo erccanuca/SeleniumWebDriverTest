@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
  * @author ercan
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({com.mycompany.seleniummaventestotomasyon.MainDemoClassTest.class})
+@Suite.SuiteClasses({com.mycompany.seleniummaventestotomasyon.MainDemoClassTest.class, com.mycompany.seleniummaventestotomasyon.AutomationTest.class})
 public class SeleniummaventestotomasyonSuite {
 
     @BeforeClass
