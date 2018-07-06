@@ -93,6 +93,9 @@ public class Automation {
      */
     public void WaitTime(long miliseconds)
     {
+        long startTime = System.currentTimeMillis();
+        
+        long estimatedTime = System.currentTimeMillis() - startTime;
         try {
             //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             Thread.sleep(miliseconds);

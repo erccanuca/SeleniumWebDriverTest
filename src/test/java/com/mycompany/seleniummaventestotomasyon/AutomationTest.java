@@ -6,6 +6,8 @@
 package com.mycompany.seleniummaventestotomasyon;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -127,19 +129,74 @@ public class AutomationTest {
 
     /**
      * Test of WaitTime method, of class Automation.
+     * @throws java.lang.InterruptedException
      */
     @Test
-    public void testWaitTime() {
-        System.out.println("WaitTime");
+    public void testWaitTime() throws InterruptedException {
         
-    }
+        System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        long miliseconds = 1000L;
+        
+        long startTime = System.currentTimeMillis();
+        
+        // wait explict time
+        Thread.sleep(miliseconds);
+        
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        if(estimatedTime >= 1000 && estimatedTime <= 1020)
+            estimatedTime = miliseconds;
+        
+        // test wait time & elapsed time
+        Assert.assertEquals(estimatedTime, miliseconds);
+        
+        System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
+    } 
 
     /**
      * Test of Search method, of class Automation.
+     * @throws java.lang.InterruptedException
      */
     @Test
-    public void testSearch() {
-        System.out.println("Search");
+    public void testSearch() throws InterruptedException {
+
+        System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        Thread.sleep(2000);
+        
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Logged in account!');");
+        
+        Thread.sleep(2000);
+        Alert alert = driver.switchTo().alert();
+        
+        Assert.assertTrue(alert.getText().contains("Logged in account!"));
+        alert.accept();
+        driver.switchTo().defaultContent();
+        
+        WebElement searchEle = driver.findElement(By.cssSelector("#searchData"));
+        searchEle.sendKeys("samsung");
+        // test
+        Assert.assertEquals("Search samsung check failed!", "samsung", searchEle.getAttribute("value"));
+        
+        Thread.sleep(2000);
+        // click Search
+        WebElement elementSearchBtn = driver.findElement(By.cssSelector("a.searchBtn"));
+        //System.out.println("tagname : " + elementSearchBtn.getTagName());
+        Assert.assertEquals("Log in check failed!", "a", elementSearchBtn.getTagName());
+        elementSearchBtn.click();       
+
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Loaded Search Page');");
+        
+        Thread.sleep(2000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
+        
+        System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
+
        
     }
 
@@ -148,7 +205,10 @@ public class AutomationTest {
      */
     @Test
     public void testScrollPageDown() {
-        System.out.println("scrollPageDown");
+        
+        System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
     }
 
@@ -157,8 +217,11 @@ public class AutomationTest {
      */
     @Test
     public void testSwap_2_page2() {
-        System.out.println("Swap_2_page2");
-      
+
+        System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
     }
 
     /**
@@ -166,8 +229,10 @@ public class AutomationTest {
      */
     @Test
     public void testAddFavorite_3_product() {
-        System.out.println("AddFavorite_3_product");
-       
+
+        System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
     }
 
     /**
@@ -175,8 +240,12 @@ public class AutomationTest {
      */
     @Test
     public void testClick_My_Favites() {
-        System.out.println("Click_My_Favites");
+
+        System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName()); 
         
+        
+        System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
+            
     }
 
     /**
@@ -184,8 +253,11 @@ public class AutomationTest {
      */
     @Test
     public void testRemove_favorite() {
-        System.out.println("Remove_favorite");
-       
+
+        System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        
+        System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
     }
 
     /**
@@ -193,8 +265,9 @@ public class AutomationTest {
      */
     @Test
     public void testExit() {
-        System.out.println("exit");
+        System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
+        System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
     }
     
 }
