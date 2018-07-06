@@ -32,6 +32,9 @@ public class Automation {
         System.setProperty("webdriver.chrome.driver","C:\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        
+        
+        
     }
 
     public static WebDriver getDriver() {
