@@ -183,8 +183,7 @@ public class Automation {
     public void Click_My_Favites()
     {
         driver.findElement(By.cssSelector("a.menuTitle")).click();  
-        
-        
+        https://www.n11.com/hesabim
         WaitTime(5000);
         
         driver.findElement(By.linkText("İstek Listelerim")).click();
@@ -217,7 +216,6 @@ public class Automation {
         driver.switchTo().defaultContent();
         WaitTime(2000);
         
-        driver.findElement(By.cssSelector("ul.listItemProductList"));
         
     }
     /**

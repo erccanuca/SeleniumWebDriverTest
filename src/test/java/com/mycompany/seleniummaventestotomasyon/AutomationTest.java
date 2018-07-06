@@ -258,6 +258,7 @@ public class AutomationTest {
 
     /**
      * Test of AddFavorite_3_product method, of class Automation.
+     * @throws java.lang.InterruptedException
      */
     @Test
     public void testHAddFavorite_3_product() throws InterruptedException {
@@ -291,12 +292,62 @@ public class AutomationTest {
 
     /**
      * Test of Click_My_Favites method, of class Automation.
+     * @throws java.lang.InterruptedException
      */
     @Test
-    public void testKClick_My_Favites() {
+    public void testKClick_My_Favites() throws InterruptedException {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName()); 
         
+        WebElement elementMenu = driver.findElement(By.cssSelector("a.menuTitle"));  
+        
+        Assert.assertEquals("Menu title check failed!", "menuTitle ", elementMenu.getAttribute("class"));
+        elementMenu.click();
+        
+        Thread.sleep(5000);
+        
+        WebElement elementFavorite = driver.findElement(By.linkText("İstek Listelerim"));
+        Assert.assertEquals("Favorite list title check failed!", "İstek Listelerim", 
+                            elementFavorite.getText());
+        elementFavorite.click();
+        
+        Thread.sleep(3000);
+        
+        WebElement elementList = driver.findElement(By.cssSelector("h4.listItemTitle"));
+        
+        Assert.assertEquals("List check failed!", "listItemTitle ", elementList.getAttribute("class"));
+        
+        String number = "";
+        boolean find = false;
+        for(int i = 0;  i < elementList.getText().length(); ++i)
+        {
+            if(elementList.getText().charAt(i) == '(')
+                find = true;
+            else if(find && elementList.getText().charAt(i) != ')' )
+                number += elementList.getText().charAt(i);
+        }
+        //System.out.println("--------------:"+number);
+        String assertAlert = "You have "; 
+        String alert = "alert('";
+        alert += "You have ";
+        alert += number;
+        assertAlert += number;
+        alert += " favorite products.";
+        assertAlert += " favorite products.";
+        alert += "');";
+      
+         //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript(alert);
+        
+        Thread.sleep(2000);
+        Alert alert2 = driver.switchTo().alert();
+        
+        Assert.assertTrue(alert2.getText().contains(assertAlert));
+        alert2.accept();
+        driver.switchTo().defaultContent();
+        
+        Thread.sleep(2000);
         
         System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
             
@@ -304,11 +355,52 @@ public class AutomationTest {
 
     /**
      * Test of Remove_favorite method, of class Automation.
+     * @throws java.lang.InterruptedException
      */
     @Test
-    public void testLRemove_favorite() {
+    public void testLRemove_favorite() throws InterruptedException {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        WebElement elementList = driver.findElement(By.cssSelector("h4.listItemTitle"));
+        
+        Assert.assertEquals("List check failed!", "listItemTitle ", elementList.getAttribute("class"));
+        
+        elementList.click();
+        
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Loaded Favorite Page');");
+        
+        Thread.sleep(2000);
+        Alert alert = driver.switchTo().alert();
+        
+        Assert.assertTrue(alert.getText().contains("Loaded Favorite Page"));
+        alert.accept();
+        driver.switchTo().defaultContent();
+        
+        Thread.sleep(3000);
+        
+        WebElement elementDelete = driver.findElement(By.cssSelector("span.deleteProFromFavorites"));
+        Assert.assertEquals("Delete check failed!", "deleteProFromFavorites ", elementDelete.getAttribute("class"));
+        elementDelete.click();
+        Thread.sleep(4000);
+        
+        WebElement elementConfirm = driver.findElement(By.cssSelector("span.btn.btnBlack.confirm"));
+        Assert.assertEquals("Confirm check failed!", "Tamam", elementConfirm.getText());
+        elementConfirm.click();
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Removed favorite product.');");
+        
+        Thread.sleep(2000);
+        Alert alert2 = driver.switchTo().alert();
+        
+        Assert.assertTrue(alert2.getText().contains("Removed favorite product."));
+        alert2.accept();
+        driver.switchTo().defaultContent();
+        
+        Thread.sleep(3000);  
         
         
         System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
