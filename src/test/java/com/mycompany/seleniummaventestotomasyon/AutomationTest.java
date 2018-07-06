@@ -5,6 +5,7 @@
  */
 package com.mycompany.seleniummaventestotomasyon;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -18,6 +19,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 /**
  *
@@ -182,7 +184,7 @@ public class AutomationTest {
         // click Search
         WebElement elementSearchBtn = driver.findElement(By.cssSelector("a.searchBtn"));
         //System.out.println("tagname : " + elementSearchBtn.getTagName());
-        Assert.assertEquals("Log in check failed!", "a", elementSearchBtn.getTagName());
+        Assert.assertEquals("Search check failed!", "a", elementSearchBtn.getTagName());
         elementSearchBtn.click();       
 
         //Generating Alert Using Javascript Executor
@@ -190,7 +192,10 @@ public class AutomationTest {
             ((JavascriptExecutor) driver).executeScript("alert('Loaded Search Page');");
         
         Thread.sleep(2000);
-        driver.switchTo().alert().accept();
+        Alert alert2 = driver.switchTo().alert();
+        
+        Assert.assertTrue(alert2.getText().contains("Loaded Search Page"));
+        alert2.accept();
         driver.switchTo().defaultContent();
         
         System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
@@ -221,11 +226,31 @@ public class AutomationTest {
 
     /**
      * Test of Swap_2_page2 method, of class Automation.
+     * @throws java.lang.InterruptedException
      */
     @Test
-    public void testGSwap_2_page2() {
+    public void testGSwap_2_page2() throws InterruptedException {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        Thread.sleep(2000);
+        WebElement element = driver.findElement(By.xpath("//a[@href ='https://www.n11.com/arama?q=samsung&pg=2']"));
+        Assert.assertEquals("Search check failed!", "a", element.getTagName());
+        element.click();
+        
+        Thread.sleep(2000);
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Loaded Search Page 2');");
+        
+        Thread.sleep(2000);
+        Alert alert = driver.switchTo().alert();
+        
+        Assert.assertTrue(alert.getText().contains("Loaded Search Page 2"));
+        alert.accept();
+        driver.switchTo().defaultContent();
+        
+        Thread.sleep(2000);
         
         System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
         
@@ -235,9 +260,31 @@ public class AutomationTest {
      * Test of AddFavorite_3_product method, of class Automation.
      */
     @Test
-    public void testHAddFavorite_3_product() {
+    public void testHAddFavorite_3_product() throws InterruptedException {
 
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        Actions actions = new Actions(driver);
+        List<WebElement> elements = driver.findElements(By.cssSelector("span.textImg.followBtn"));
+       
+        Thread.sleep(2000);
+        if(elements.size() > 2)
+            Assert.assertTrue(true);
+        actions.moveToElement(elements.get(2)).click().build().perform();
+        
+     
+        Thread.sleep(2000);
+        
+        // up page 
+        Long instance = 0L;
+       
+        JavascriptExecutor executer = ((JavascriptExecutor) driver);
+        executer.executeScript("window.scrollTo(0,0)");
+            
+        Long value = (Long) executer.executeScript("return window.pageYOffset;");
+        //System.out.println("Position scroll: " + value);
+        
+        Assert.assertEquals(instance,value);
         
         System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
     }
