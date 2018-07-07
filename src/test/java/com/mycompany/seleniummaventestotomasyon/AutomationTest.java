@@ -44,9 +44,7 @@ public class AutomationTest {
         driver.manage().window().maximize(); // maximize page
     }
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
+   
 
     /**
      * Test of OpenBrowser method, of class Automation.
@@ -274,6 +272,15 @@ public class AutomationTest {
         actions.moveToElement(elements.get(2)).click().build().perform();
         
      
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Added Favorite 3. product!');");
+        
+        Thread.sleep(2000);
+        Alert alert = driver.switchTo().alert();
+        
+        Assert.assertTrue(alert.getText().contains("Added Favorite 3. product!"));
+        alert.accept();
+        driver.switchTo().defaultContent();
         Thread.sleep(2000);
         
         // up page 
@@ -315,7 +322,7 @@ public class AutomationTest {
         
         WebElement elementList = driver.findElement(By.cssSelector("h4.listItemTitle"));
         
-        Assert.assertEquals("List check failed!", "listItemTitle ", elementList.getAttribute("class"));
+        Assert.assertEquals("List check failed!", "listItemTitle", elementList.getAttribute("class"));
         
         String number = "";
         boolean find = false;
@@ -364,7 +371,7 @@ public class AutomationTest {
         
         WebElement elementList = driver.findElement(By.cssSelector("h4.listItemTitle"));
         
-        Assert.assertEquals("List check failed!", "listItemTitle ", elementList.getAttribute("class"));
+        Assert.assertEquals("List check failed!", "listItemTitle", elementList.getAttribute("class"));
         
         elementList.click();
         
@@ -382,7 +389,7 @@ public class AutomationTest {
         Thread.sleep(3000);
         
         WebElement elementDelete = driver.findElement(By.cssSelector("span.deleteProFromFavorites"));
-        Assert.assertEquals("Delete check failed!", "deleteProFromFavorites ", elementDelete.getAttribute("class"));
+        Assert.assertEquals("Delete check failed!", "deleteProFromFavorites", elementDelete.getAttribute("class"));
         elementDelete.click();
         Thread.sleep(4000);
         
@@ -408,12 +415,33 @@ public class AutomationTest {
 
     /**
      * Test of exit method, of class Automation.
+     * @throws java.lang.InterruptedException
      */
     @Test
-    public void testMExit() {
+    public void testMExit() throws InterruptedException {
         System.out.println("Start test " + new Object(){}.getClass().getEnclosingMethod().getName());
+        
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Thanks - Good By!');");
+        
+        Thread.sleep(2000);
+        Alert alert = driver.switchTo().alert();
+        
+        Assert.assertTrue(alert.getText().contains("Thanks - Good By!"));
+        alert.accept();
+        driver.switchTo().defaultContent();
+        
+        Thread.sleep(3000);
+        
+        driver.close();
+        driver.quit();
+        driver = null;
+        Assert.assertNull(driver);
         
         System.out.println("End test " + new Object(){}.getClass().getEnclosingMethod().getName());
     }
-    
+     @AfterClass
+    public static void tearDownClass() {
+    }
 }

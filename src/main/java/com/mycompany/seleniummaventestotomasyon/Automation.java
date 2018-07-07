@@ -172,7 +172,15 @@ public class Automation {
         actions.moveToElement(elements.get(2)).click().build().perform();
        
      
+        //Generating Alert Using Javascript Executor
+        if (driver instanceof JavascriptExecutor)  
+            ((JavascriptExecutor) driver).executeScript("alert('Added Favorite 3. product!');");
+        
         WaitTime(2000);
+        driver.switchTo().alert().accept();
+        driver.switchTo().defaultContent();
+        WaitTime(2000);
+        
         // up page 
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0,0)");
@@ -207,7 +215,7 @@ public class Automation {
         alert += " favorite products.";
         alert += "');";
       
-         //Generating Alert Using Javascript Executor
+        //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
             ((JavascriptExecutor) driver).executeScript(alert);
         
@@ -259,7 +267,7 @@ public class Automation {
     {
         //Generating Alert Using Javascript Executor
         if (driver instanceof JavascriptExecutor)  
-            ((JavascriptExecutor) driver).executeScript("alert('Thanks');");
+            ((JavascriptExecutor) driver).executeScript("alert('Thanks - Good By!');");
         
         WaitTime(2000);
         driver.switchTo().alert().accept();
